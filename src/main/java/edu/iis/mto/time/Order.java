@@ -1,49 +1,23 @@
 package edu.iis.mto.time;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Order extends Clock {
+
+public class Order {
 	private static final int VALID_PERIOD_HOURS = 24;
 	private State orderState;
 	private List<OrderItem> items = new ArrayList<OrderItem>();
 	private Instant subbmitionDate;
+	private MockOfWorkingClock mockOfWorkingClock = new MockOfWorkingClock();
+
 
 	public Order() {
 		orderState = State.CREATED;
-	}
-
-	//PRIVATE
-	private final Instant WHEN_STARTED = Instant.now();
-	private final ZoneId DEFAULT_TZONE = ZoneId.systemDefault();
-	private long count = 0;
-
-
-	@Override
-	public ZoneId getZone() {
-		return DEFAULT_TZONE;
-	}
-
-	@Override
-	public Clock withZone(ZoneId zone) {
-		return Clock.fixed(WHEN_STARTED, zone);
-	}
-
-	@Override
-	public Instant instant() {
-		return nextInstant();
-	}
-
-	private Instant nextInstant() {
-		++count;
-		return WHEN_STARTED.plusSeconds(count);
 	}
 
 	public void addItem(OrderItem item) {
@@ -58,8 +32,9 @@ public class Order extends Clock {
 		requireState(State.CREATED);
 
 		orderState = State.SUBMITTED;
-		subbmitionDate = Instant.now().plusSeconds(-90001);
 
+		mockOfWorkingClock.setCount(-90001);
+		subbmitionDate = mockOfWorkingClock.instant();
 	}
 
 	public void confirm() {
