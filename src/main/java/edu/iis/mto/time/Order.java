@@ -13,7 +13,7 @@ public class Order {
 	private State orderState;
 	private List<OrderItem> items = new ArrayList<OrderItem>();
 	private Instant subbmitionDate;
-	private MockOfWorkingClock mockOfWorkingClock = new MockOfWorkingClock();
+	private SimulatorOfWorkingClock simulatorOfWorkingClock = new SimulatorOfWorkingClock();
 
 
 	public Order() {
@@ -33,8 +33,8 @@ public class Order {
 
 		orderState = State.SUBMITTED;
 
-		mockOfWorkingClock.setCount(-90001);
-		subbmitionDate = mockOfWorkingClock.instant();
+		simulatorOfWorkingClock.setCount(-90001);
+		subbmitionDate = simulatorOfWorkingClock.instant();
 	}
 
 	public void confirm() {

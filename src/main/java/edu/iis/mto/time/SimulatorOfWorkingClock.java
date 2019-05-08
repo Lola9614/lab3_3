@@ -4,7 +4,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 
-public class MockOfWorkingClock extends Clock {
+public class SimulatorOfWorkingClock extends Clock {
 
     private final Instant WHEN_STARTED = Instant.now();
     private final ZoneId DEFAULT_TZONE = ZoneId.systemDefault();
